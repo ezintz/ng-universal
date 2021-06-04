@@ -1,4 +1,5 @@
 import { ngExpressEngine } from '@nguniversal/express-engine';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
 import { CacheKeyByOriginalUrlGenerator } from '../cache/cache-key-by-original-url.generator';
 import { InMemoryCacheStorage } from '../cache/in-memory-cache.storage';
@@ -26,6 +27,14 @@ export function setupUniversal(app: any, ngOptions: AngularUniversalOptions) {
         {
           provide: 'serverUrl',
           useValue: `${options.req.protocol}://${options.req.get('host')}`
+        },
+        {
+          provide: REQUEST,
+          useValue: options.req
+        },
+        {
+          provide: RESPONSE,
+          useValue: options.req.res
         },
         ...(ngOptions.extraProviders || [])
       ]
